@@ -1,0 +1,29 @@
+from random import *
+a = []
+while True:
+    try:
+        n = int(input('Введіть розмірність масиву: '))
+        if n == 0:
+            print('\nВведіть число відміне від 0: ')
+            continue
+        if n < 0:
+            print('\nВедіть число більше від 0: ')
+            continue
+        break
+    except ValueError:
+        print('\nВведіть число:')
+a = [randint(-10, 10) for i in range(n)]
+#for i in range(0,n):
+#   a.append(i)
+print (a)
+if a == sorted(a):
+    res = 1
+    for i in range(n-1):
+        res = res * (a[i+1]- a[i])
+    print (res)
+else:
+    sum = 0
+    for i in a:
+        if i > 0:
+            sum += i
+    print(sum)
