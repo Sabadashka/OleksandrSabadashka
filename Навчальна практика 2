@@ -1,0 +1,41 @@
+from random import randint
+
+def mergeSort(array):
+    leftSize = len(array)
+    if leftSize == 1:
+        return array
+    middle = leftSize // 2
+    leftPart = mergeSort(array[:middle])
+    rightPart = mergeSort(array[middle:])
+    return merge(leftPart, rightPart)
+
+def merge(leftPart, rightPart):
+    result = []
+    i = j = 0
+    while i < len(leftPart) and j < len(rightPart):
+        if leftPart[i] < rightPart[j]:
+            result.append(leftPart[i])
+            i += 1
+        else:
+            result.append(rightPart[j])
+            j += 1
+    result.extend(leftPart[i:])
+    result.extend(rightPart[j:])
+    return result
+
+programProcess = 1
+while(programProcess == 1):
+    n = int(input("Введіть розмір масиву: "))
+    wayFillMatrix = int(input("Виберіть спосіб заповнення масиву. 1. Власні / 2. Випадкові: "))
+    array = [0] * n
+    if wayFillMatrix == 1:
+        for i in range(n):
+            array[i] = int(input())
+    else:
+        a = int(input("Введіть a: "))
+        b = int(input("Введіть b: "))
+        array = [randint(a, b) for i in range(n)]
+    print(array)
+    sorted_array = mergeSort(array)
+    print(sorted_array)
+    programProcess = int(input("Продовжити або зупинити програму? 1 продовжити / 2 зупинити:"))
