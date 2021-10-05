@@ -1,0 +1,60 @@
+# Ввести масив а розмірності n
+# Визначити чи є його елементи по зростанню, якщо так, то суму різниць добутку сусідніх елементів, якщо ні, то обчислити суму додатніх
+def add():
+    while True:
+        try:
+            n = int(input('Введіть розмірність масиву: '))
+            if n == 0:
+                print('\nВведіть число відміне від 0! ')
+                continue
+            if n < 0:
+                print('\nВведіть число більше від 0! ')
+                continue
+            break
+        except ValueError:
+            print('\nВведіть число!!!')
+            continue
+    return n
+
+
+def mass():
+    n = add()
+    a = []
+    while True:
+        try:
+            for i in range(n):
+                a.append(int(input('Введіть число масива: ')))
+            print(a)
+            break
+        except ValueError:
+            print('\nВведіть число! Масив очищено.\nВведіть заново.\n')
+            a.clear()
+            continue
+    return a
+
+
+def Sort(key=lambda x: x):
+    a = mass()
+    t = True
+    for i, el in enumerate(a[1:]):
+        if key(el) > key(a[i]):
+            t = True
+        else:
+            t = False
+            break
+
+    if t:
+        res = 1
+        for i in range(len(a) - 1):
+            res = res * (a[i + 1] - a[i])
+        print(f'{"-" * 30} \nМасив сортований \n{"-" * 30} \nРезультат: {res}')
+
+    else:
+        sum = 0
+        for i in a:
+            if i > 0:
+                sum += i
+        print(f'{"-" * 30} \nМасив не сортований \n{"-" * 30} \nРезультат: {sum}')
+
+
+Sort()
