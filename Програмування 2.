@@ -1,0 +1,49 @@
+def mat():
+    n = add()
+    a = [[0] * n for i in range(n)]
+    for i in range(n):
+        for j in range(n):
+            if i < j:
+                a[i][j] = 0
+            elif i > j:
+                a[i][j] = 0
+            else:
+                a[i][j] = (i+1)*(i+2)
+    print(" ")
+    for row in a:
+        print(' '.join([str(elem) for elem in row]))
+    return menu()
+
+def add():
+    while True:
+        try:
+            n = int(input('\033[92mВведіть розмірність матриці\033[0m '))
+            if n == 0:
+                print('\n\033[94mВведіть число відміне від 0!\033[0m ')
+                continue
+            if n < 0:
+                print('\n\033[94mВведіть число більше від 0!\033[0m ')
+                continue
+            break
+        except ValueError:
+            print('\n\033[91mВведіть число!\033[0m')
+            continue
+        #break
+    return n
+
+
+def menu():
+    print()
+    option = input("\033[96m1 - розпочати роботу з матрицями\n"
+                   "2 - вийти з програми\n\033[0m")
+    if option == '1':
+        mat()
+    elif option == '2':
+        print("\n\033[93mВихід з програми\033[0m")
+        exit()
+    else:
+        #print("\033[33m {Виберіть коректний варіант}")
+        print ('\n\033[91mВиберіть коректний варіант!\033[0m')
+        menu()
+
+menu()
