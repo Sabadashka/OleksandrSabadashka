@@ -1,0 +1,136 @@
+from random import randint
+
+operations = 0
+
+def mergeSort(array):
+    # дізнаємося довжину масиву
+    global operations
+    leftSize = len(array)
+    # якщо довжина 1 то ретурн
+    if leftSize == 1:
+        return array
+    # шукаємо довжину половини масиву
+    middle = leftSize // 2
+    operations += 1
+    # сортуємо ліву частину
+    leftPart = mergeSort(array[:middle])
+    # сортуємо праву частину
+    rightPart = mergeSort(array[middle:])
+    return merge(leftPart, rightPart, operations)
+
+
+def merge(leftPart, rightPart, operations):
+    result = []
+    i = j = 0
+    while i < len(leftPart) and j < len(rightPart):
+        # якщо лівий елемент менший правого то додаємо його до результату
+        if leftPart[i] < rightPart[j]:
+            result.append(leftPart[i])
+            operations += 1
+            i += 1
+        else:
+            # інакше додаємо правий елемент
+            result.append(rightPart[j])
+            operations += 1
+            j += 1
+    result.extend(leftPart[i:])
+    result.extend(rightPart[j:])
+    return result
+
+
+def size():
+    while True:
+        try:
+            n = int(input('\033[92mВведіть розмір масива:\033[0m '))
+            if n == 0:
+                print('\n\033[94mВведіть число відміне від 0!\033[0m ')
+                continue
+            if n < 0:
+                print('\n\033[94mВведіть число більше від 0!\033[0m ')
+                continue
+            break
+        except ValueError:
+            print('\n\033[91mВведіть число!\033[0m')
+            continue
+    return n
+
+
+def input_i():
+    while True:
+        n = size()
+        array = [0] * n
+        try:
+            for i in range(n):
+                array[i] = int(input(f'\033[36mВведіть {i + 1} число: \033[0m'))
+            print(f'\033[93m{array} - Введений масив\033[0m')
+            sorted_array = mergeSort(array)
+            print(f'\033[93m{sorted_array} - Сортований масив\033[0m')
+            break
+        except ValueError:
+            print('\n\033[91mПотрібно вводити число!\033[0m')
+            print('\n\033[91mРозмір масива та введені символи в масив було видалено.\nВведіть ще раз!\033[0m')
+            continue
+    return array[i]
+
+
+def input_a():
+    while True:
+        try:
+            a = int(input('\033[92mВведіть a: \033[0m'))
+            break
+        except ValueError:
+            print('\n\033[91mВведіть число!\033[0m')
+            continue
+    return a
+
+
+def input_b():
+    while True:
+        try:
+            b = int(input('\033[92mВведіть b: \033[0m'))
+            break
+        except ValueError:
+            print('\n\033[91mВведіть число!\033[0m')
+            continue
+    return b
+
+
+def end():
+    option = input("\033[96m1 - продовжити\n"
+                   "2 - завершити\n\033[0m")
+    if option == '1':
+        menu()
+    elif option == '2':
+        print("\n\033[93mВихід з програми\033[0m")
+        exit()
+    else:
+        print('\n\033[91mВиберіть коректний варіант!\n\033[0m')
+        end()
+
+
+def menu():
+    option = 1
+    while option == 1:
+        wayFillMatrix = input("\033[96mВиберіть варіант для заповнення масива: \n1 - Власне заповнення\n"
+                              "2 - Рандомне заповнення\n\033[0m")
+        if wayFillMatrix == '1':
+            input_i()
+            print(f'\033[97mОперації: {operations}\033[0m')
+        elif wayFillMatrix == '2':
+            n = size()
+            a = input_a()
+            b = input_b()
+            while a > b:
+                print("\033[91mb повинне бути більшим за а!\033[0m")
+                b = input_b()
+            array = [randint(a, b) for i in range(n)]
+            print(f'\033[93m{array} - Введений масив\033[0m')
+            sorted_array = mergeSort(array)
+            print(f'\033[93m{sorted_array} - Сортований масив\033[0m')
+            print(f'\033[97mКількість операцій: {operations}\033[0m')
+        else:
+            print('\n\033[91m!Виберіть коректний варіант!\n\033[0m')
+            menu()
+        end()
+        menu()
+menu()
