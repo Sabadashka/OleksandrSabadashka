@@ -1,6 +1,8 @@
 from random import randint
+import sys
 
 operations = 0
+
 
 def mergeSort(array):
     # дізнаємося довжину масиву
@@ -55,44 +57,14 @@ def size():
     return n
 
 
-def input_i():
-    while True:
-        n = size()
-        array = [0] * n
-        try:
-            for i in range(n):
-                array[i] = int(input(f'\033[36mВведіть {i + 1} число: \033[0m'))
-            print(f'\033[93m{array} - Введений масив\033[0m')
-            sorted_array = mergeSort(array)
-            print(f'\033[93m{sorted_array} - Сортований масив\033[0m')
-            break
-        except ValueError:
-            print('\n\033[91mПотрібно вводити число!\033[0m')
-            print('\n\033[91mРозмір масива та введені символи в масив було видалено.\nВведіть ще раз!\033[0m')
-            continue
-    return array[i]
-
-
-def input_a():
+def validation(x):
     while True:
         try:
-            a = int(input('\033[92mВведіть a: \033[0m'))
+            x = int(x)
             break
         except ValueError:
-            print('\n\033[91mВведіть число!\033[0m')
-            continue
-    return a
-
-
-def input_b():
-    while True:
-        try:
-            b = int(input('\033[92mВведіть b: \033[0m'))
-            break
-        except ValueError:
-            print('\n\033[91mВведіть число!\033[0m')
-            continue
-    return b
+            sys.exit('\n\033[91mПрограма закінчила роботу. Ви ввели не число!\033[0m')
+    return x
 
 
 def end():
@@ -108,29 +80,55 @@ def end():
         end()
 
 
+def for_option_1():
+    while True:
+        n = size()
+        a = array = [] * n
+        try:
+            for i in range(n):
+                a.append(int(input(f'\033[36mВведіть {i + 1} число: \033[0m')))
+            print(f'\033[93m{array} - Введений масив\033[0m')
+            sorted_array = mergeSort(array)
+            print(f'\033[93m{sorted_array} - Сортований масив\033[0m')
+            break
+        except ValueError:
+            sys.exit('\n\033[91mПрограма закінчила роботу. Ви ввели не число!\033[0m')
+    print(f'\033[97mОперації: {operations}\033[0m')
+    return a
+
+
+def for_option_2():
+    n = size()
+    a = input('\033[92mВведіть a: \033[0m')
+    a = validation(a)
+    b = input('\033[92mВведіть b: \033[0m')
+    b = validation(b)
+    while a > b:
+        print("\033[91mb повинне бути більшим за а!\033[0m")
+        b = input('\033[92mВведіть b: \033[0m')
+        b = validation(b)
+    array = [randint(a, b) for i in range(n)]
+    print(f'\033[93m{array} - Введений масив\033[0m')
+    sorted_array = mergeSort(array)
+    print(f'\033[93m{sorted_array} - Сортований масив\033[0m')
+    print(f'\033[97mКількість операцій: {operations}\033[0m')
+    return a, b
+
+
 def menu():
     option = 1
     while option == 1:
         wayFillMatrix = input("\033[96mВиберіть варіант для заповнення масива: \n1 - Власне заповнення\n"
                               "2 - Рандомне заповнення\n\033[0m")
         if wayFillMatrix == '1':
-            input_i()
-            print(f'\033[97mОперації: {operations}\033[0m')
+            for_option_1()
         elif wayFillMatrix == '2':
-            n = size()
-            a = input_a()
-            b = input_b()
-            while a > b:
-                print("\033[91mb повинне бути більшим за а!\033[0m")
-                b = input_b()
-            array = [randint(a, b) for i in range(n)]
-            print(f'\033[93m{array} - Введений масив\033[0m')
-            sorted_array = mergeSort(array)
-            print(f'\033[93m{sorted_array} - Сортований масив\033[0m')
-            print(f'\033[97mКількість операцій: {operations}\033[0m')
+            for_option_2()
         else:
             print('\n\033[91m!Виберіть коректний варіант!\n\033[0m')
             menu()
         end()
         menu()
+
+
 menu()
